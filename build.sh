@@ -1,3 +1,3 @@
 #!/bin/bash
 
-python3 src/main.py "/MarkDavidSanders/site-generator/"
+python3 src/main.py "/site-generator/"
