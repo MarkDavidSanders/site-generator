@@ -4,6 +4,6 @@
 
 Give me a call anytime to chat about Tolkien!
 
-`555-555-5555`
+`555-420-6969`
 
-**"Váya márië."**
+**"Váya márië."** (I don't know what this means)
