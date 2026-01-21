@@ -43,8 +43,9 @@ def copy_static(src_dir, dest_dir):
         sys.exit(1)
 
     # delete contents of destination folder (if it exists and contains anything)
-    # if not os.path.exists(abs_dest_dir) or not os.listdir(abs_dest_dir):
+    if not os.path.exists(abs_dest_dir) or not os.listdir(abs_dest_dir):
     #     logging.info('Destination folder does not exist or is already empty')
+        pass
 
     else:
         try:
@@ -58,10 +59,9 @@ def copy_static(src_dir, dest_dir):
             #         logging.info('Deleted %s/%s', dest_dir, item)
             # logging.info('Destination folder cleared')
 
-        # except Exception as e:
+        except Exception as e:
             # logging.error('Something went wrong while clearing destination folder: %s', e)
-            # sys.exit(1)
-        except Exception:
+            print(f"!!! Something went wrong while clearing destination folder: {e}")
             sys.exit(1)
 
     # recursively copy src_dir files/subdirectories
@@ -83,9 +83,9 @@ def copy_static(src_dir, dest_dir):
                 # logging.info('Recursively copying %s', src_item_path)
                 dest_item_path = os.path.join(abs_dest_dir, src_item)
                 copy_static(src_item_path, dest_item_path)
-    # except Exception as e:
+    except Exception as e:
     #     logging.error('Something went wrong while copying: %s', e)
-    except Exception:
+        print(f"!!! Something went wrong while copying: {e}")
         sys.exit(1)
 
     # logging.info('%s contents successfully copied to %s', src_dir, dest_dir)

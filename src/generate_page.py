@@ -16,7 +16,7 @@ def extract_title(markdown):
             return "\n".join([line.lstrip("# ") for line in block.split("\n")])
     raise ValueError("No toplevel header found in markdown")
 
-def generate_page(from_path, template_path, dest_path):
+def generate_page(basepath, from_path, template_path, dest_path):
     '''
     Converts markdown file at from_path to HTML and inserts into template.
     Writes adjusted template to dest_path. Creates destination folders as needed.
@@ -40,6 +40,8 @@ def generate_page(from_path, template_path, dest_path):
 
     template = template.replace("{{ Title }}", title)
     template = template.replace("{{ Content }}", html_string)
+    template = template.replace('href="/', f'href="{basepath}')
+    template = template.replace('src="/', f'src="{basepath}')
 
     dest_dir = os.path.dirname(dest_path)
     if not os.path.exists(dest_dir):
@@ -47,7 +49,7 @@ def generate_page(from_path, template_path, dest_path):
     with open(dest_path, 'w', encoding='utf-8') as f:
         f.write(template)
 
-def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+def generate_pages_recursive(basepath, dir_path_content, template_path, dest_dir_path):
     '''
     Recursively searches content directory and generates HTML pages for any markdown file found
     '''
@@ -57,7 +59,7 @@ def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
         if os.path.isfile(item_path) and item.endswith('.md'):
             rel_path = os.path.relpath(item_path, dir_path_content)
             dest_path = os.path.join(dest_dir_path, f'{rel_path[:-3]}.html')
-            generate_page(item_path, template_path, dest_path)
+            generate_page(basepath, item_path, template_path, dest_path)
         elif os.path.isdir(item_path):
             new_dest_dir = os.path.join(dest_dir_path, item)
-            generate_pages_recursive(item_path, template_path, new_dest_dir)
+            generate_pages_recursive(basepath, item_path, template_path, new_dest_dir)
